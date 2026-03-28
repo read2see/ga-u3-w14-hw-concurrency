@@ -13,7 +13,7 @@ public class Employee {
 
     private String name;
     private BigDecimal currentSalary;
-    private LocalDate joinDate;
+    private LocalDate joinedDate;
     private Role role;
     private double projectCompletionRate;
 }

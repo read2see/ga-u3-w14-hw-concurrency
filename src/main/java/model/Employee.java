@@ -16,4 +16,8 @@ public class Employee {
     private LocalDate joinedDate;
     private Role role;
     private double projectCompletionRate;
+
+    public void incrementCurrentSalary(BigDecimal increment) {
+        this.currentSalary = this.currentSalary.add(increment);
+    }
 }

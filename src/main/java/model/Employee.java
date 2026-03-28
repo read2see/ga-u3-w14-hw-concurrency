@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,5 +24,9 @@ public class Employee {
 
     public void applySalaryMultiplier(BigDecimal multiplier) {
         this.currentSalary = this.currentSalary.multiply(multiplier);
+    }
+
+    public int getElapsedWorkYears() {
+        return Period.between(this.joinedDate, LocalDate.now()).getYears();
     }
 }

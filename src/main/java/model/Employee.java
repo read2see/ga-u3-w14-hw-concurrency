@@ -20,4 +20,8 @@ public class Employee {
     public void incrementCurrentSalary(BigDecimal increment) {
         this.currentSalary = this.currentSalary.add(increment);
     }
+
+    public void applySalaryMultiplier(BigDecimal multiplier) {
+        this.currentSalary = this.currentSalary.multiply(multiplier);
+    }
 }

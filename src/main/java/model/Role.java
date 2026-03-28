@@ -2,14 +2,16 @@ package model;
 
 import lombok.Getter;
 
+import java.math.BigDecimal;
+
 @Getter
 public enum Role {
-    DIRECTOR(0.05),
-    MANAGER(0.02),
-    EMPLOYEE(0.01);
+    DIRECTOR(new BigDecimal("0.05")),
+    MANAGER(new BigDecimal("0.02")),
+    EMPLOYEE(new BigDecimal("0.01"));
 
-    private final double increment;
-    Role(double increment) {
+    private final BigDecimal increment;
+    Role(BigDecimal increment) {
         this.increment = increment;
     }
 }

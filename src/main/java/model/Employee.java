@@ -29,4 +29,8 @@ public class Employee {
     public int getElapsedWorkYears() {
         return Period.between(this.joinedDate, LocalDate.now()).getYears();
     }
+
+    public boolean isEligibleForRaise() {
+        return this.projectCompletionRate >= 0.6;
+    }
 }

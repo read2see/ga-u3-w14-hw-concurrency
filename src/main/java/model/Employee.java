@@ -34,4 +34,8 @@ public class Employee {
     public boolean isEligibleForRaise() {
         return this.projectCompletionRate >= 0.6;
     }
+
+    public boolean isHighPerformer() {
+        return this.projectCompletionRate > 0.8;
+    }
 }

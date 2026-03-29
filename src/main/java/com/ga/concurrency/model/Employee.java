@@ -15,6 +15,7 @@ public class Employee {
 
     private String name;
     private BigDecimal currentSalary;
+    private BigDecimal afterRaiseSalary;
     private LocalDate joinedDate;
     private Role role;
     private double projectCompletionRate;
@@ -22,9 +23,12 @@ public class Employee {
     public void incrementCurrentSalary(BigDecimal increment) {
         this.currentSalary = this.currentSalary.add(increment);
     }
+    public void incrementSalary(BigDecimal increment) {
+        this.afterRaiseSalary = this.currentSalary.add(increment);
+    }
 
     public void applySalaryMultiplier(BigDecimal multiplier) {
-        this.currentSalary = this.currentSalary.multiply(multiplier);
+        this.afterRaiseSalary = this.currentSalary.multiply(multiplier);
     }
 
     public int getElapsedWorkYears() {

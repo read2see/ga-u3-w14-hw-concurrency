@@ -23,6 +23,22 @@ public class CSVProcessor {
     @Value("classpath:${app.csv.file}")
     private Resource localDataSet;
 
+    public List<Employee> readEmployees() throws IOException, CsvValidationException {
+        try (InputStream inputStream = localDataSet.getInputStream()) {
+            return parseEmployees(inputStream);
+        }
+    }
+
+    public List<Employee> readEmployees(String filePath) throws IOException, CsvValidationException {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+        if (inputStream == null) {
+            throw new IOException("File not found: " + filePath);
+        }
+        try (InputStream is = inputStream) {
+            return parseEmployees(is);
+        }
+    }
+
     private List<Employee> parseEmployees(InputStream inputStream) throws IOException, CsvValidationException {
         List<Employee> employees = new ArrayList<>();
 

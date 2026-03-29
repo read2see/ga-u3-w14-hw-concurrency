@@ -14,4 +14,13 @@ public enum Role {
     Role(BigDecimal increment) {
         this.increment = increment;
     }
+
+    public static Role fromString(String value) {
+        return switch(value.trim().toUpperCase()){
+            case "DIRECTOR" -> DIRECTOR;
+            case "MANAGER" -> MANAGER;
+            case "EMPLOYEE" -> EMPLOYEE;
+            default -> throw new IllegalArgumentException("Invalid Role: " + value);
+        };
+    }
 }

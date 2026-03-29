@@ -96,7 +96,7 @@ public class EmployeeService {
                 .setScale(2, RoundingMode.HALF_UP);
 
         synchronized (employee) {
-            employee.incrementCurrentSalary(raiseAmount);
+            employee.incrementSalary(raiseAmount);
         }
 
         return true;

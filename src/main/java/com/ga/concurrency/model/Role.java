@@ -1,4 +1,4 @@
-package model;
+package com.ga.concurrency.model;
 
 import lombok.Getter;
 

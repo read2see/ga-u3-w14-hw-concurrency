@@ -9,6 +9,7 @@ import java.time.Period;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @ToString
 public class Employee {
 

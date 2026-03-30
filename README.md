@@ -8,7 +8,25 @@ Spring Boot application that reads employee records from a CSV file, applies con
 - **Maven 3.6+**
 
 ## Project setup
-*To Be Updated*
+1. **Clone the repository** (or extract the project) and open a terminal in the project root.
+
+2. **Build the project**
+
+   ```bash  
+   ./mvnw clean package   ```  
+   On Windows:  
+  
+   ```cmd  
+   mvnw.cmd clean package  
+   ```  
+3. **Run the application**
+
+   ```bash  
+   ./mvnw spring-boot:run   ```  
+4. **Open the app** in a browser: [http://localhost:8080](http://localhost:8080)
+
+   The home page loads employee data from the configured CSV, runs the concurrent raise pipeline, and renders the table.
+
 ### Configuration
 
 | Property | Description |
@@ -42,8 +60,32 @@ Implementation: `com.ga.concurrency.util.CSVProcessor` uses OpenCSV and maps row
 
 ---
 
-## Implementation report  (outcomes)
+## Implementation Report
 
-*To Be Updated*
+This project implements a concurrent Java application for processing employee salary data from a CSV file. The system reads employee records, applies defined business rules to calculate salary increases, and processes the data efficiently using multithreading and concurrency control techniques.
+
 ---
 
+## System Design
+
+The application follows a modular structure:
+
+* **CSVProcessor** handles reading and parsing CSV data into employee objects.
+* **Employee** represents the data model, storing attributes such as salary, role, join date, and performance metrics.
+* **EmployeeService** contains the core logic for salary calculation and manages concurrent processing.
+
+This separation ensures clarity, maintainability, and logical organization of responsibilities.
+
+---
+
+## Concurrency Implementation
+
+Concurrency is implemented using Java’s Executor framework. A fixed thread pool processes employees in parallel, with each employee handled as an independent task.
+
+To ensure safe and controlled execution:
+
+* A **Semaphore** limits the number of concurrent tasks.
+* **Synchronized blocks** ensure thread-safe updates to employee salary data.
+* **AtomicInteger** provides thread-safe tracking of processed results.
+
+The executor is properly shut down and awaited to guarantee that all tasks complete before results are returned.

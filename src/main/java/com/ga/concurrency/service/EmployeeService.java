@@ -17,6 +17,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
+/**
+ * Applies salary raises concurrently based on role, tenure, and performance.
+ */
 public class EmployeeService {
     static final BigDecimal TENURE_INCREMENT_PER_YEAR = new BigDecimal("0.02");
     static final BigDecimal HIGH_PERFORMER_MULTIPLIER = new BigDecimal("1.5");
@@ -26,24 +29,57 @@ public class EmployeeService {
     private final int maxConcurrentTasks;
 
     @Autowired
+    /**
+     * Creates the service with default thread pool and concurrency limits.
+     *
+     * @param csvProcessor CSV reader dependency
+     */
     public EmployeeService(CSVProcessor csvProcessor) {
         this(csvProcessor, defaultPoolSize(), defaultConcurrencyLimit(defaultPoolSize()));
     }
 
+    /**
+     * Creates the service with explicit concurrency configuration.
+     *
+     * @param csvProcessor CSV reader dependency
+     * @param poolSize worker thread count
+     * @param maxConcurrentTasks semaphore limit for active tasks
+     */
     public EmployeeService(CSVProcessor csvProcessor, int poolSize, int maxConcurrentTasks) {
         this.csvProcessor = csvProcessor;
         this.poolSize = Math.max(1, poolSize);
         this.maxConcurrentTasks = Math.max(1, maxConcurrentTasks);
     }
 
+    /**
+     * Reads and processes employees from configured CSV input.
+     *
+     * @return processed employees
+     * @throws IOException when file access fails
+     * @throws CsvValidationException when CSV content is invalid
+     */
     public List<Employee> processEmployees() throws IOException, CsvValidationException {
         return processEmployees(csvProcessor.readEmployees());
     }
 
+    /**
+     * Reads and processes employees from a provided classpath CSV path.
+     *
+     * @param filePath classpath CSV path
+     * @return processed employees
+     * @throws IOException when file access fails
+     * @throws CsvValidationException when CSV content is invalid
+     */
     public List<Employee> processEmployees(String filePath) throws IOException, CsvValidationException {
         return processEmployees(csvProcessor.readEmployees(filePath));
     }
 
+    /**
+     * Processes employees concurrently and applies eligible raises.
+     *
+     * @param employees employee list to process
+     * @return the same list with updated post-raise salaries
+     */
     public List<Employee> processEmployees(List<Employee> employees) {
         if (employees.isEmpty()) {
             return employees;
@@ -85,6 +121,12 @@ public class EmployeeService {
         return employees;
     }
 
+    /**
+     * Applies a raise to one employee when eligibility rules are met.
+     *
+     * @param employee employee to update
+     * @return true if a raise was applied, otherwise false
+     */
     boolean applyRaise(Employee employee) {
         if (!employee.isEligibleForRaise()) {
             return false;
@@ -102,6 +144,12 @@ public class EmployeeService {
         return true;
     }
 
+    /**
+     * Calculates total raise percentage for an employee.
+     *
+     * @param employee employee to evaluate
+     * @return raise percentage as decimal value
+     */
     BigDecimal calculateRaisePercentage(Employee employee) {
         BigDecimal totalPercentage = employee.getRole().getIncrement().add(calculateTenureIncrease(employee));
 

@@ -19,18 +19,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+/**
+ * Loads and parses employee records from CSV files.
+ */
 public class CSVProcessor {
     private static final DateTimeFormatter US_DATE_FORMATTER = DateTimeFormatter.ofPattern("M/d/yyyy");
 
     @Value("classpath:${app.csv.file}")
     private Resource localDataSet;
 
+    /**
+     * Reads employees from the configured classpath resource.
+     *
+     * @return parsed employee list
+     * @throws IOException when file access fails
+     * @throws CsvValidationException when CSV content is invalid
+     */
     public List<Employee> readEmployees() throws IOException, CsvValidationException {
         try (InputStream inputStream = localDataSet.getInputStream()) {
             return parseEmployees(inputStream);
         }
     }
 
+    /**
+     * Reads employees from a classpath-relative CSV path.
+     *
+     * @param filePath classpath file path
+     * @return parsed employee list
+     * @throws IOException when file access fails or file is missing
+     * @throws CsvValidationException when CSV content is invalid
+     */
     public List<Employee> readEmployees(String filePath) throws IOException, CsvValidationException {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
         if (inputStream == null) {
@@ -62,6 +80,12 @@ public class CSVProcessor {
         return employees;
     }
 
+    /**
+     * Parses a date value using ISO format first, then US short format.
+     *
+     * @param date date text
+     * @return parsed {@link LocalDate}
+     */
     private LocalDate parseDate(String date) {
         try {
             return LocalDate.parse(date);
